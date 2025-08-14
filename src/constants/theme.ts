@@ -4,7 +4,7 @@ export const colors = {
   carmel: "#d9a869",
   darkCarmel: "#c88d5a",
   lightCream: "#f4f1eb",
-  green: "#2f5b3b",
+  green: "#015518ff",
   coffee: "#e5d3b4",
   darkCoffee: "#3a2c23",
   white: "#ffffff",

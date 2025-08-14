@@ -3,6 +3,7 @@ import React, { ReactNode } from 'react';
 import {
     TextProps,
     TextStyle,
+    TouchableOpacityProps,
     ViewStyle,
 } from 'react-native';
 
@@ -19,4 +20,12 @@ export type TypoProps = {
     children: any | null;
     style?: TextStyle;
     textProps?: TextProps;
+}
+
+export interface CustomButtonProps extends TouchableOpacityProps {
+  style?: ViewStyle;
+  onPress?: () => void;
+  loading?: boolean;
+  hasShadow?: boolean;
+  children: React.ReactNode;
 }
