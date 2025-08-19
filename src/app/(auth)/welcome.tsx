@@ -37,11 +37,8 @@ const Welcome = () => {
                             .damping(12)}
                         style={{alignItems:"center"}}
                     >
-                        <Typo size={30} fontWeight={"800"} color={colors.darkCoffee}>
-                            text
-                        </Typo>
-                        <Typo size={30} fontWeight={"800"} color={colors.darkCoffee}>
-                            text2
+                        <Typo size={28} fontWeight={"800"} color={colors.darkCoffee}>
+                            Ready for a Coffee Break?
                         </Typo>
                     </Animated.View>
 
@@ -51,11 +48,8 @@ const Welcome = () => {
                             .springify()
                             .damping(12)}
                         style={{alignItems: 'center', gap: 2}}>
-                        <Typo size={17} color={colors.darkCoffee}>
-                            text
-                        </Typo>
-                        <Typo size={17} color={colors.darkCoffee}>
-                            text2
+                        <Typo size={15} color={colors.darkCoffee}>
+                            Explore our menu and get your coffee now!
                         </Typo>
                     </Animated.View>
 

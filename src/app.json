@@ -16,6 +16,7 @@
       },
       "edgeToEdgeEnabled": true
     },
+    "package": "com.coffeebreakmob",
     "web": {
       "bundler": "metro",
       "output": "static"
@@ -29,7 +30,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
