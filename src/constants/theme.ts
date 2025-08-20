@@ -2,9 +2,9 @@ import { scale, verticalScale } from "@/utils/screenScale"
 
 export const colors = {
   carmel: "#d9a869",
-  darkCarmel: "#c88d5a",
+  darkCarmel: "#b0814f",
   lightCream: "#f4f1eb",
-  green: "#015518ff",
+  green: "#00532d",
   coffee: "#e5d3b4",
   darkCoffee: "#3a2c23",
   white: "#ffffff",

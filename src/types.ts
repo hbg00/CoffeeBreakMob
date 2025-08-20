@@ -1,6 +1,8 @@
 import React, { ReactNode } from 'react';
 
 import {
+    TextInput,
+    TextInputProps,
     TextProps,
     TextStyle,
     TouchableOpacityProps,
@@ -22,6 +24,11 @@ export type TypoProps = {
     textProps?: TextProps;
 }
 
+export type BakcButtonProps = {
+  style?: ViewStyle;
+  iconSize?: number;
+}
+
 export interface CustomButtonProps extends TouchableOpacityProps {
   style?: ViewStyle;
   onPress?: () => void;
@@ -29,3 +36,11 @@ export interface CustomButtonProps extends TouchableOpacityProps {
   hasShadow?: boolean;
   children: React.ReactNode;
 }
+
+export interface InputProps extends TextInputProps {
+  icon?: React.ReactNode;
+  containerStyle?: ViewStyle;
+  inputStyle?: TextStyle;
+  inputRef?: React.RefObject<TextInput>;
+};
+

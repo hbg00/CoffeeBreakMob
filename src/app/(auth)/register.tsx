@@ -1,12 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { colors } from '@/constants/theme'
+import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper'
 
 const Register = () => {
   return (
-    <View style={styles.container}>
-      <Text>register</Text>
-    </View>
+    <ScreenWrapper>
+      <View style={styles.container}>
+        <Text>Register</Text>
+      </View>
+    </ScreenWrapper>
   )
 }
 

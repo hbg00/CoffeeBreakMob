@@ -48,7 +48,7 @@ const Welcome = () => {
                             .springify()
                             .damping(12)}
                         style={{alignItems: 'center', gap: 2}}>
-                        <Typo size={15} color={colors.darkCoffee}>
+                        <Typo size={15} color={colors.coffee} fontWeight={"600"}>
                             Explore our menu and get your coffee now!
                         </Typo>
                     </Animated.View>
@@ -61,7 +61,7 @@ const Welcome = () => {
                         style={styles.buttonContainer}>
                         <Button onPress={()=>{router.push("/(auth)/register")}}>
                             <Typo size={22} color={colors.white} fontWeight={"600"}>
-                                Get Coffee!
+                               Register and Get Coffee!
                             </Typo>
                         </Button>
                     </Animated.View>

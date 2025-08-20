@@ -6,7 +6,7 @@ import { verticalScale } from '@/utils/screenScale';
 import * as SystemUI from 'expo-system-ui';
 
 const Index = () => {
-    SystemUI.setBackgroundColorAsync(colors.carmel);
+    SystemUI.setBackgroundColorAsync(colors.darkCarmel);
     const router = useRouter();
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.carmel,
+        backgroundColor: colors.darkCarmel,
     },
     logo: {
         width: "100%",
