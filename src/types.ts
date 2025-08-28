@@ -9,17 +9,30 @@ import {
     ViewStyle,
 } from 'react-native';
 
-export type AuthUser = {
-  id: string;
-  email: string;
-  name: string;
-  given_name?: string;
-  family_name?: string;
-  email_verified?: boolean;
-  provider?: string;
-  exp?: number;
-  cookieExpiration?: number;
-}
+export type AuthContextType = {
+  user: UserType;
+  login: (
+    email:string,
+    password:string,
+  ) => Promise<{success: boolean; msg?: string}>;
+  register: (
+    email: string,
+    password: string,
+    name: string,
+    surname: string,
+    phoneNumber: number,
+  ) => Promise<{success: boolean; msg?: string }>;
+  loginWithGoogle: (
+  ) => Promise<{success: boolean; msg?: string}>;
+};
+
+export type UserType = {
+  uid?: string;
+  email?: string | null;
+  name?: string | null;
+  surname?: string | null;
+  phoneNumber?: number | null;
+} | null;
 
 export type ScreenWrapperProps = {
     style?: ViewStyle

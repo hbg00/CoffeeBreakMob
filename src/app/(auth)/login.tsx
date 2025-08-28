@@ -1,29 +1,53 @@
 import { Alert, Pressable, StyleSheet, View } from 'react-native'
-import React, { useEffect, useRef } from 'react'
-import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper'
+import React, { useRef, useState } from 'react'
+import { useRouter } from 'expo-router'
+import { useAuth } from '@/context/authContext'
+
 import { colors, spacingX, spacingY } from '@/constants/theme'
 import { verticalScale } from '@/utils/screenScale'
+import *  as Icons from "phosphor-react-native";
+
 import Typo from '@/components/ComponentsUtils/Typo'
-import { useRouter } from 'expo-router'
 import Button from '@/components/Shared/Button'
 import BackButton from '@/components/Shared/BackButton'
-import *  as Icons from "phosphor-react-native";
 import Input from '@/components/Shared/Input'
+import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper'
 
 
 const Login = () => {
   const router = useRouter();
   const emailRef =  useRef("");
   const passwordRef = useRef("");
+  const [isLoading, setIsLoading] = useState(false);
+  const{login: loginEmail, loginWithGoogle: loginOAuth} = useAuth();
+
 
   const handleLoginEmail =  async () => {
-    // TODO: Login with email and password
-    console.log("Logged with email");
+    // TODO: Logic with email and password
+    setIsLoading(true);
+    
+    const res = await loginEmail(emailRef.current, passwordRef.current);
+    
+    setIsLoading(false);
+    
+    if(!res.success){
+      Alert.alert('Login', res.msg);
+      return;
+    }
   };
 
   const handleLoginGoogle = async () => {
-    // TODO: Login with Google
-    console.log("Logged with Google");
+    // TODO: Logic with OAuth Google
+    setIsLoading(true);
+    
+    const res = await loginOAuth();
+    
+    setIsLoading(false);
+    
+    if(!res.success){
+      Alert.alert('Login', res.msg);
+      return;
+    }
   }
 
 
@@ -33,7 +57,7 @@ const Login = () => {
         <BackButton iconSize={28}/>
         
         <View style={{gap: 5, marginTop: spacingY._20}}>
-          <Typo size={30} color={colors.white} fontWeight={"800"}>
+          <Typo size={30} color={colors.darkCoffee} fontWeight={"800"}>
             Hey
           </Typo>
           <Typo size={28} color={colors.coffee} fontWeight={"800"}>
@@ -67,7 +91,7 @@ const Login = () => {
             }
           />
 
-          <Button onPress={handleLoginGoogle} style={{marginTop:20}}>
+          <Button onPress={handleLoginEmail} style={{marginTop:20}}>
             <Typo fontWeight={"700"} color={colors.white} size={21} >
               Login
             </Typo>
@@ -75,7 +99,7 @@ const Login = () => {
             
           <Button onPress={handleLoginGoogle}>
             <Typo fontWeight={"700"} color={colors.white} size={21} >
-              Login / Register with Google
+              Register and Login with Google
             </Typo>
           </Button>
         </View>

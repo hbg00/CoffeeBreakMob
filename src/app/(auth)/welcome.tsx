@@ -18,7 +18,7 @@ const Welcome = () => {
             <View style={styles.container}>
                 <View>
                     <Button onPress={()=>{router.push("/(auth)/login")}} style={styles.loginButton}>
-                        <Typo size={17} color={colors.white} fontWeight={"600"}>
+                        <Typo size={20} color={colors.white} fontWeight={"600"}>
                             Sign In
                         </Typo>
                     </Button>
