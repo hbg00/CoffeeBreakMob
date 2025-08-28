@@ -9,6 +9,18 @@ import {
     ViewStyle,
 } from 'react-native';
 
+export type AuthUser = {
+  id: string;
+  email: string;
+  name: string;
+  given_name?: string;
+  family_name?: string;
+  email_verified?: boolean;
+  provider?: string;
+  exp?: number;
+  cookieExpiration?: number;
+}
+
 export type ScreenWrapperProps = {
     style?: ViewStyle
     children: ReactNode;

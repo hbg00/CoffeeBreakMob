@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import { Alert, Pressable, StyleSheet, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
 import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper'
 import { colors, spacingX, spacingY } from '@/constants/theme'
 import { verticalScale } from '@/utils/screenScale'
@@ -11,16 +11,21 @@ import *  as Icons from "phosphor-react-native";
 import Input from '@/components/Shared/Input'
 
 
-
 const Login = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
   const emailRef =  useRef("");
   const passwordRef = useRef("");
 
-  const handleSubbmit =  async () => {
-    // Handle subbmit Logic
+  const handleLoginEmail =  async () => {
+    // TODO: Login with email and password
+    console.log("Logged with email");
   };
+
+  const handleLoginGoogle = async () => {
+    // TODO: Login with Google
+    console.log("Logged with Google");
+  }
+
 
   return (
     <ScreenWrapper>
@@ -62,9 +67,15 @@ const Login = () => {
             }
           />
 
-          <Button onPress={handleSubbmit} style={{marginTop:20}}>
+          <Button onPress={handleLoginGoogle} style={{marginTop:20}}>
             <Typo fontWeight={"700"} color={colors.white} size={21} >
               Login
+            </Typo>
+          </Button>
+            
+          <Button onPress={handleLoginGoogle}>
+            <Typo fontWeight={"700"} color={colors.white} size={21} >
+              Login / Register with Google
             </Typo>
           </Button>
         </View>
