@@ -18,7 +18,7 @@ const Welcome = () => {
             <View style={styles.container}>
                 <View>
                     <Button onPress={()=>{router.push("/(auth)/login")}} style={styles.loginButton}>
-                        <Typo size={17} color={colors.white} fontWeight={"600"}>
+                        <Typo size={20} color={colors.white} fontWeight={"600"}>
                             Sign In
                         </Typo>
                     </Button>
@@ -37,11 +37,8 @@ const Welcome = () => {
                             .damping(12)}
                         style={{alignItems:"center"}}
                     >
-                        <Typo size={30} fontWeight={"800"} color={colors.darkCoffee}>
-                            text
-                        </Typo>
-                        <Typo size={30} fontWeight={"800"} color={colors.darkCoffee}>
-                            text2
+                        <Typo size={28} fontWeight={"800"} color={colors.darkCoffee}>
+                            Ready for a Coffee Break?
                         </Typo>
                     </Animated.View>
 
@@ -51,11 +48,8 @@ const Welcome = () => {
                             .springify()
                             .damping(12)}
                         style={{alignItems: 'center', gap: 2}}>
-                        <Typo size={17} color={colors.darkCoffee}>
-                            text
-                        </Typo>
-                        <Typo size={17} color={colors.darkCoffee}>
-                            text2
+                        <Typo size={15} color={colors.coffee} fontWeight={"600"}>
+                            Explore our menu and get your coffee now!
                         </Typo>
                     </Animated.View>
 
@@ -67,7 +61,7 @@ const Welcome = () => {
                         style={styles.buttonContainer}>
                         <Button onPress={()=>{router.push("/(auth)/register")}}>
                             <Typo size={22} color={colors.white} fontWeight={"600"}>
-                                Get Coffee!
+                               Register and Get Coffee!
                             </Typo>
                         </Button>
                     </Animated.View>
