@@ -1,10 +1,11 @@
-import { Pressable, StyleSheet, View } from 'react-native';
-import React, { useRef }from 'react';
+import { Alert, Pressable, StyleSheet, View } from 'react-native';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
+import { useAuth } from '@/context/authContext';
 
 import { colors, spacingX, spacingY } from '@/constants/theme';
 import { verticalScale } from '@/utils/screenScale';
-import *  as Icons from "phosphor-react-native";
+import * as Icons from "phosphor-react-native";
 
 import Button from '@/components/Shared/Button';
 import BackButton from '@/components/Shared/BackButton';
@@ -13,25 +14,41 @@ import Input from '@/components/Shared/Input';
 import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper';
 
 const Register = () => {
-  const emailRef =  useRef("");
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const { register: registerWithEmail } = useAuth();
+
+  const emailRef = useRef("");
   const passwordRef = useRef("");
   const nameRef = useRef("");
   const surnameRef = useRef("");
   const phoneNumberRef = useRef("");
 
-  const router = useRouter();
-  
-  const handleRegisterEmail =  async () => {
-    // TODO: Login with email and password
-    console.log("Registered & Login with email");
+  const handleRegisterEmail = async () => {
+    setIsLoading(true);
+
+    const res = await registerWithEmail(
+      emailRef.current,
+      passwordRef.current,
+      nameRef.current,
+      surnameRef.current,
+      phoneNumberRef.current
+    );
+
+    setIsLoading(false);
+
+    if (!res.success) {
+      Alert.alert('Register', res.msg);
+      return;
+    }
   };
 
   return (
     <ScreenWrapper>
       <View style={styles.container}>
-        <BackButton iconSize={28}/>
+        <BackButton iconSize={28} />
 
-        <View style={{gap: 5, marginTop: spacingY._20}}>
+        <View style={{ gap: 5, marginTop: spacingY._20 }}>
           <Typo size={30} fontWeight={"800"} color={colors.darkCoffee}>
             Ready To Join Us?
           </Typo>
@@ -42,21 +59,20 @@ const Register = () => {
 
         {/* form */}
         <View style={styles.form}>
-          <Input 
-              placeholder="Enter your email"
-              onChangeText={(value) => (emailRef.current = value)}
-              icon={
-                <Icons.AtIcon
-                  size={verticalScale(26)}
-                  color={colors.darkCoffee}
-                  weight="fill"
-                />
-              }
+          <Input
+            placeholder="Enter your email"
+            onChangeText={(value) => (emailRef.current = value)}
+            icon={
+              <Icons.AtIcon
+                size={verticalScale(26)}
+                color={colors.darkCoffee}
+                weight="fill"
+              />
+            }
           />
 
-          <Input 
+          <Input
             placeholder="Enter your Name"
-            secureTextEntry
             onChangeText={(value) => (nameRef.current = value)}
             icon={
               <Icons.PersonIcon
@@ -67,9 +83,8 @@ const Register = () => {
             }
           />
 
-          <Input 
+          <Input
             placeholder="Enter your Surname"
-            secureTextEntry
             onChangeText={(value) => (surnameRef.current = value)}
             icon={
               <Icons.PersonIcon
@@ -80,9 +95,8 @@ const Register = () => {
             }
           />
 
-          <Input 
+          <Input
             placeholder='Enter your phone number without "+" sign'
-            secureTextEntry
             onChangeText={(value) => (phoneNumberRef.current = value)}
             icon={
               <Icons.PhoneCallIcon
@@ -93,7 +107,7 @@ const Register = () => {
             }
           />
 
-          <Input 
+          <Input
             placeholder="Enter your password"
             secureTextEntry
             onChangeText={(value) => (passwordRef.current = value)}
@@ -106,8 +120,8 @@ const Register = () => {
             }
           />
 
-          <Button onPress={handleRegisterEmail} style={{marginTop:20}}>
-            <Typo fontWeight={"700"} color={colors.white} size={21} >
+          <Button onPress={handleRegisterEmail} style={{ marginTop: 20 }} loading={isLoading}>
+            <Typo fontWeight={"700"} color={colors.white} size={21}>
               Sign up
             </Typo>
           </Button>
@@ -115,46 +129,33 @@ const Register = () => {
 
         {/* footer */}
         <View style={styles.footer}>
-            <Typo size={15} color={colors.coffee}> Already have an account ? </Typo>
-            <Pressable onPress={() => router.push("/(auth)/welcome")}>
-              <Typo fontWeight={"700"} color={colors.darkCoffee} size={15} >
-                Sign In
-              </Typo>
-            </Pressable>
+          <Typo size={15} color={colors.coffee}> Already have an account ? </Typo>
+          <Pressable onPress={() => router.push("/(auth)/login")}>
+            <Typo fontWeight={"700"} color={colors.darkCoffee} size={15}>
+              Sign In
+            </Typo>
+          </Pressable>
         </View>
-
-
       </View>
     </ScreenWrapper>
-  )
-}
+  );
+};
 
 export default Register;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        gap: spacingY._30,
-        paddingHorizontal: spacingX._20
-    },
-    welcomeText: {
-        fontSize: verticalScale(20),
-        fontWeight: "bold",
-        color: colors.white,
-    },
-    form: {
-        gap: spacingY._20,
-    },
-
-    footer: {
-      flexDirection: "row",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: 5,
-    },
-    footerText: {
-        textAlign: "center",
-        color: colors.white,
-        fontSize: verticalScale(15),
-    },
+  container: {
+    flex: 1,
+    gap: spacingY._30,
+    paddingHorizontal: spacingX._20
+  },
+  form: {
+    gap: spacingY._20,
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 5,
+  },
 });

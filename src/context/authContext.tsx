@@ -22,7 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register: AuthContextType["register"] = async (email, password, name, surname, phoneNumber) => {
     // TODO: Implement real authentication logic here
-    router.replace("/(tabs)");
+    router.replace("/(auth)/login");
     return { success: true };
   };
 
