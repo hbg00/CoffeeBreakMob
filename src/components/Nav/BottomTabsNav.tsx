@@ -16,28 +16,28 @@ export default function BottomTabsNav({
             <Icons.CookieIcon
                 size={verticalScale(40)}
                 weight={isFocused ? 'fill' : 'regular'}
-                color={isFocused ? colors.green : colors.darkCoffee}
+                color={isFocused ? colors.green : colors.black}
             />
         ),
         basket: (isFocused: boolean) => (
             <Icons.BasketIcon
                 size={verticalScale(40)}
                 weight={isFocused ? 'fill' : 'regular'}
-                color={isFocused ? colors.green : colors.darkCoffee}
+                color={isFocused ? colors.green : colors.black}
             />
         ),
         fav: (isFocused: boolean) => (
             <Icons.HeartIcon
                 size={verticalScale(40)}
                 weight={isFocused ? 'fill' : 'regular'}
-                color={isFocused ? colors.green : colors.darkCoffee}
+                color={isFocused ? colors.green : colors.black}
             />
         ),
         profile: (isFocused: boolean) => (
             <Icons.UserIcon
                 size={verticalScale(40)}
                 weight={isFocused ? 'fill' : 'regular'}
-                color={isFocused ? colors.green : colors.darkCoffee}
+                color={isFocused ? colors.green : colors.black}
             />
         ),
     };
@@ -84,7 +84,7 @@ export default function BottomTabsNav({
             style={ styles.tabberItem }
           >
             <Text
-              style={{ color: isFocused ? colors.darkCarmel : colors.green }}
+              style={{ color: isFocused ? colors.green : colors.green }}
             >
             {
               bottomTabBarIcons[route.name] && bottomTabBarIcons[route.name](isFocused)
@@ -105,8 +105,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderTopColor: colors.white,
-    borderTopWidth: 1,
   },
   tabberItem: {
     marginBottom: spacingY._5,

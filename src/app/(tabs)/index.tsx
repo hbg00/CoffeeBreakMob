@@ -2,12 +2,12 @@ import { StyleSheet, Text } from 'react-native'
 import React from 'react'
 import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper'
 import { useRouter } from 'expo-router';
-import { useAuth } from '@/context/authContext';
 import { colors } from '@/constants/theme';
+
+
 
 const Home = () => {
   const router = useRouter();
-  const { user } = useAuth();
 
   return (
     <ScreenWrapper style={{ backgroundColor: colors.white }}>

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { AuthContextType, UserType } from "@/types";
+import { AuthContextType, UserType } from "@/constants/types/types";
 import { useRouter } from "expo-router";
 
 export const AuthContext = createContext<AuthContextType | null>(null);

@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity} from 'react-native'
 import React from 'react'
 import { useRouter } from 'expo-router';
-import { BakcButtonProps } from '@/types';
+import { BakcButtonProps } from '@/constants/types/types';
 import { colors, radius } from '@/constants/theme';
 import { verticalScale } from '@/utils/screenScale';
 import { CaretLeftIcon } from "phosphor-react-native";

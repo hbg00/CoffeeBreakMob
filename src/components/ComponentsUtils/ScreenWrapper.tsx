@@ -1,6 +1,6 @@
 import { StatusBar, StyleSheet, View } from "react-native";
 import React from "react";
-import { ScreenWrapperProps } from "@/types";
+import { ScreenWrapperProps } from "@/constants/types/types";
 import { colors } from "@/constants/theme";
 
 const ScreenWrapper = ({ style, children }: ScreenWrapperProps) => {

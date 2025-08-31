@@ -57,7 +57,6 @@ const Register = () => {
           </Typo>
         </View>
 
-        {/* form */}
         <View style={styles.form}>
           <Input
             placeholder="Enter your email"
@@ -127,7 +126,6 @@ const Register = () => {
           </Button>
         </View>
 
-        {/* footer */}
         <View style={styles.footer}>
           <Typo size={15} color={colors.coffee}> Already have an account ? </Typo>
           <Pressable onPress={() => router.push("/(auth)/login")}>
