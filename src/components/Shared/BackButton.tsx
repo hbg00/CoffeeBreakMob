@@ -30,7 +30,7 @@ export default BackButton
 
 const styles = StyleSheet.create({
       button: {
-        backgroundColor: colors.green,
+        backgroundColor: colors.orange,
         alignSelf: "flex-start",
         borderRadius: radius._12,
         borderCurve: "continuous",

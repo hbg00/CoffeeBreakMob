@@ -95,7 +95,7 @@ const Register = () => {
           />
 
           <Input
-            placeholder='Enter your phone number without "+" sign'
+            placeholder='Enter your phone number'
             onChangeText={(value) => (phoneNumberRef.current = value)}
             icon={
               <Icons.PhoneCallIcon

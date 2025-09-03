@@ -30,17 +30,18 @@ const styles = StyleSheet.create({
         height: verticalScale(54),
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: colors.darkCoffee,
         borderRadius: radius._17,
         borderCurve: "continuous",
         paddingHorizontal: spacingX._15,
         gap: spacingX._10,
-
+        fontWeight: "500",
     },
     input: {
         flex: 1,
-        color: colors.darkCoffee,
+        color: colors.white,
+        fontWeight: "500",
         fontSize: verticalScale(14),
     }
 });

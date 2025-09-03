@@ -5,7 +5,6 @@ import * as Icons from 'phosphor-react-native';
 import { verticalScale } from '@/utils/screenScale';
 import { colors, spacingY } from '@/constants/theme';
 
-
 export default function BottomTabsNav({ 
   state,
   descriptors,
@@ -16,28 +15,28 @@ export default function BottomTabsNav({
             <Icons.CookieIcon
                 size={verticalScale(40)}
                 weight={isFocused ? 'fill' : 'regular'}
-                color={isFocused ? colors.green : colors.black}
+                color={isFocused ? colors.coffee : colors.coffee}
             />
         ),
         basket: (isFocused: boolean) => (
             <Icons.BasketIcon
                 size={verticalScale(40)}
                 weight={isFocused ? 'fill' : 'regular'}
-                color={isFocused ? colors.green : colors.black}
+                color={isFocused ? colors.coffee : colors.coffee}
             />
         ),
         fav: (isFocused: boolean) => (
             <Icons.HeartIcon
                 size={verticalScale(40)}
                 weight={isFocused ? 'fill' : 'regular'}
-                color={isFocused ? colors.green : colors.black}
+                color={isFocused ? colors.coffee : colors.coffee}
             />
         ),
         profile: (isFocused: boolean) => (
             <Icons.UserIcon
                 size={verticalScale(40)}
                 weight={isFocused ? 'fill' : 'regular'}
-                color={isFocused ? colors.green : colors.black}
+                color={isFocused ? colors.coffee : colors.coffee}
             />
         ),
     };
@@ -84,7 +83,7 @@ export default function BottomTabsNav({
             style={ styles.tabberItem }
           >
             <Text
-              style={{ color: isFocused ? colors.green : colors.green }}
+              style={{ color: isFocused ? colors.white : colors.white }}
             >
             {
               bottomTabBarIcons[route.name] && bottomTabBarIcons[route.name](isFocused)
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: "100%",
     height: verticalScale(80),
-    backgroundColor: colors.white,
+    backgroundColor: colors.darkCoffee,
     justifyContent: 'space-around',
     alignItems: 'center',
   },

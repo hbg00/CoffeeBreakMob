@@ -21,7 +21,7 @@ const Button = ({
     }
     return (
         <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
-        {children}
+            {children}
         </TouchableOpacity>
     );
 };
@@ -30,7 +30,7 @@ export default Button
 
 const styles = StyleSheet.create({
     button:{
-        backgroundColor: colors.green,
+        backgroundColor: colors.orange,
         borderRadius: radius._12,
         borderCurve: 'continuous',
         height: verticalScale(52),

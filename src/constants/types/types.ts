@@ -1,12 +1,13 @@
 import React, { ReactNode } from 'react';
 
 import {
-    TextInput,
-    TextInputProps,
-    TextProps,
-    TextStyle,
-    TouchableOpacityProps,
-    ViewStyle,
+  StyleProp,
+  TextInput,
+  TextInputProps,
+  TextProps,
+  TextStyle,
+  TouchableOpacityProps,
+  ViewStyle,
 } from 'react-native';
 
 export type AuthContextType = {
@@ -40,13 +41,13 @@ export type ScreenWrapperProps = {
 }
 
 export type TypoProps = {
-    size?: number;
-    color?: string;
-    fontWeight?: TextStyle["fontWeight"];
-    children: any | null;
-    style?: TextStyle;
-    textProps?: TextProps;
-}
+  size?: number;
+  color?: string;
+  fontWeight?: TextStyle["fontWeight"];
+  children?: React.ReactNode;
+  style?: StyleProp<TextStyle>;
+  textProps?: TextProps;
+};
 
 export type BakcButtonProps = {
   style?: ViewStyle;
