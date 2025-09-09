@@ -1,11 +1,20 @@
-import React, { useState, useRef } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View, FlatList } from 'react-native';
-import { CoffeeItem, coffees, getCategories } from '../../data/coffeeMocks';
-import Typo from '@/components/ComponentsUtils/Typo';
-import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper';
-import { colors, radius, spacingX, spacingY } from '@/constants/theme';
-import HeadBar from '@/components/Home/HeadBar';
-import { useAuth } from '@/context/authContext';
+import React, { useState, useRef } from "react";
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  FlatList,
+} from "react-native";
+
+import { coffees, getCategories } from "../../data/coffeeMocks";
+import { CoffeeItem } from "@/constants/types/homeTypes";
+import Typo from "@/components/ComponentsUtils/Typo";
+import ScreenWrapper from "@/components/ComponentsUtils/ScreenWrapper";
+import { colors, radius, spacingX, spacingY } from "@/constants/theme";
+import HeadBar from "@/components/Home/HeadBar";
+import { useAuth } from "@/context/authContext";
+import Card from "@/components/Home/Card";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -16,7 +25,7 @@ const Home = () => {
 
   const getCoffeeList = (category: string, data: CoffeeItem[]) => {
     if (category === "All") return data;
-    return data.filter(item => item.category === category);
+    return data.filter((item) => item.category === category);
   };
 
   const [categoryIndex, setCategoryIndex] = useState({
@@ -24,8 +33,8 @@ const Home = () => {
     category: categories[0],
   });
 
-  const [sortedCoffee, setSortedCoffee] = useState(
-    getCoffeeList(categoryIndex.category, coffees),
+  const [coffee, setCoffee] = useState(
+    getCoffeeList(categoryIndex.category, coffees)
   );
 
   return (
@@ -34,51 +43,78 @@ const Home = () => {
         <HeadBar />
 
         <View>
-            <Typo size={24} color={colors.darkCoffee} fontWeight={"bold"}>
-                Hi, {user?.name ?? "Adam"}
-            </Typo>
+          <Typo size={24} color={colors.darkCoffee} fontWeight={"bold"}>
+            Hi, {user?.name ?? "Adam"}
+          </Typo>
 
-            <Typo size={20} color={colors.coffee} fontWeight={"bold"}>
-                How we can make your day better?
-            </Typo>
+          <Typo size={20} color={colors.coffee} fontWeight={"bold"}>
+            How we can make your day better?
+          </Typo>
         </View>
 
         <View>
-            <Typo size={24} color={colors.darkCoffee} fontWeight={"bold"}>
-                Types of coffees
-            </Typo>
-        
-        <ScrollView
+          <Typo size={24} color={colors.darkCoffee} fontWeight={"bold"}>
+            Types of coffees
+          </Typo>
+
+          <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoryScrollView}
-        >
+          >
             {categories.map((data, index) => (
-                <TouchableOpacity
-                    key={index.toString()}
-                    style={[
-                        styles.categoryPill,
-                        categoryIndex.index === index && styles.activeCategoryPill,
-                    ]}
-                    onPress={() => {
-                        setCategoryIndex({ index, category: data });
-                        setSortedCoffee(getCoffeeList(data, coffees));
-                    }}
+              <TouchableOpacity
+                key={index.toString()}
+                style={[
+                  styles.categoryPill,
+                  categoryIndex.index === index && styles.activeCategoryPill,
+                ]}
+                onPress={() => {
+                  setCategoryIndex({ index, category: data });
+                  setCoffee(getCoffeeList(data, coffees));
+
+                  ListRef.current?.scrollToOffset({ offset: 0, animated: true });
+                }}
+              >
+                <Typo
+                  style={[
+                    styles.categoryText,
+                    categoryIndex.index === index && styles.activeCategoryText,
+                  ]}
                 >
-                    <Typo
-                        style={[
-                        styles.categoryText,
-                        categoryIndex.index === index && styles.activeCategoryText,
-                        ]}
-                    >
-                        {data}
-                    </Typo>
-                </TouchableOpacity>
+                  {data}
+                </Typo>
+              </TouchableOpacity>
             ))}
-        </ScrollView>
+          </ScrollView>
 
-        </View>
+          <Typo size={24} color={colors.darkCoffee} fontWeight={"bold"}>
+            Coffees
+          </Typo>
 
+          <FlatList
+            ref={ListRef}
+            data={coffee}
+            renderItem={({ item, index }) => (
+              <Card
+                id={item.id}
+                type={item.category}
+                roast_type={item.roast_type}
+                imagelink_square={require("../../assets/images/coffee_temp.jpg")}
+
+                name={item.name}
+                price={item.price}
+                buttonPressHandler={(coffeeItem: any) => {
+                  console.log("Added to cart:", coffeeItem);
+                }}
+              />
+            )}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal 
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ gap: spacingX._20, paddingVertical: spacingY._10 }}
+          />
+        </View>        
       </View>
     </ScreenWrapper>
   );
@@ -109,11 +145,15 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 14,
     color: colors.white,
-    fontWeight: "600"
+    fontWeight: "600",
   },
   activeCategoryText: {
     color: colors.white,
     fontWeight: "bold",
+  },
+  cardRow: {
+    justifyContent: "space-between",
+    marginBottom: spacingY._20,
   },
 });
 

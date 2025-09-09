@@ -1,13 +1,4 @@
-export interface CoffeeItem {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    category: string;
-    roast_type: string;
-    origin: string[];
-    additions: string[];
-}
+import { CoffeeItem } from "@/constants/types/homeTypes";
 
 export const coffees: CoffeeItem[] = [
     {
