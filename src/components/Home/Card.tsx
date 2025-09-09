@@ -7,7 +7,7 @@ import {
     Image,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
-import Typo from "../ComponentsUtils/Typo";
+import Typo from "../Shared/Typo";
 import { CardProps } from "@/constants/types/homeTypes";
 import { colors, radius, spacingX } from "@/constants/theme";
 
@@ -65,10 +65,9 @@ export default Card;
 
 const styles = StyleSheet.create({
     cardContainer: {
-        width: 200,
+        width: 175,
         borderRadius: radius._20,
         overflow: "hidden",
-        marginRight: spacingX._10,
     },
     cardImage: {
         height: 120,
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
     },
     infoContainer: {
         padding: spacingX._12,
-        gap: spacingX._10,
+        gap: spacingX._5,
     },
     cardTitle: {
         color: colors.white,

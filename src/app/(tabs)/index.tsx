@@ -9,8 +9,8 @@ import {
 
 import { coffees, getCategories } from "../../data/coffeeMocks";
 import { CoffeeItem } from "@/constants/types/homeTypes";
-import Typo from "@/components/ComponentsUtils/Typo";
-import ScreenWrapper from "@/components/ComponentsUtils/ScreenWrapper";
+import Typo from "@/components/Shared/Typo";
+import ScreenWrapper from "@/components/Shared/ScreenWrapper";
 import { colors, radius, spacingX, spacingY } from "@/constants/theme";
 import HeadBar from "@/components/Home/HeadBar";
 import { useAuth } from "@/context/authContext";
