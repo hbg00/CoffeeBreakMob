@@ -24,11 +24,6 @@ const Profile = () => {
       bgColor: colors.orange,
     },
     {
-      title: "Settings",
-      icon: <Icons.GearSixIcon size={26} color={colors.white} weight="fill" />,
-      bgColor: colors.orange,
-    },
-    {
       title: "Logout",
       icon: <Icons.PowerIcon size={26} color={colors.white} weight="fill" />,
       bgColor: colors.orange,
