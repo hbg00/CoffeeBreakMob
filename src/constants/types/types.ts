@@ -69,3 +69,8 @@ export interface InputProps extends TextInputProps {
   inputRef?: React.RefObject<TextInput>;
 };
 
+export type ModalProps = {
+    style?: ViewStyle;
+    children: React.ReactNode;
+    bg?: string;
+};

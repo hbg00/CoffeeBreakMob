@@ -3,8 +3,8 @@ import React from "react";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 import { useRouter } from "expo-router";
 
-import ScreenWrapper from "@/components/ComponentsUtils/ScreenWrapper";
-import Typo from "@/components/ComponentsUtils/Typo";
+import ScreenWrapper from "@/components/Shared/ScreenWrapper";
+import Typo from "@/components/Shared/Typo";
 import { colors, spacingX, spacingY } from "@/constants/theme";
 import Button from "@/components/Shared/Button";
 import { verticalScale } from "@/utils/screenScale";

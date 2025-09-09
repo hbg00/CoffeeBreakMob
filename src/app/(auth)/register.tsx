@@ -9,9 +9,9 @@ import * as Icons from "phosphor-react-native";
 
 import Button from '@/components/Shared/Button';
 import BackButton from '@/components/Shared/BackButton';
-import Typo from '@/components/ComponentsUtils/Typo';
+import Typo from '@/components/Shared/Typo';
 import Input from '@/components/Shared/Input';
-import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper';
+import ScreenWrapper from '@/components/Shared/ScreenWrapper';
 
 const Register = () => {
   const router = useRouter();
