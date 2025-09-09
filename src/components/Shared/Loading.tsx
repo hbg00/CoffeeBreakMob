@@ -4,7 +4,7 @@ import { colors } from '@/constants/theme';
 
 const Loading = ({
     size = "large",
-    color = colors.green
+    color = colors.orange
 }: ActivityIndicatorProps) => {
   return (
     <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>

@@ -13,7 +13,6 @@ import BackButton from '@/components/Shared/BackButton'
 import Input from '@/components/Shared/Input'
 import ScreenWrapper from '@/components/ComponentsUtils/ScreenWrapper'
 
-
 const Login = () => {
   const router = useRouter();
   const emailRef =  useRef("");

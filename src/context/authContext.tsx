@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { AuthContextType, UserType } from "@/types";
+import { AuthContextType, UserType } from "@/constants/types/types";
 import { useRouter } from "expo-router";
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -22,7 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register: AuthContextType["register"] = async (email, password, name, surname, phoneNumber) => {
     // TODO: Implement real authentication logic here
-    router.replace("/(tabs)");
+    router.replace("/(auth)/login");
     return { success: true };
   };
 

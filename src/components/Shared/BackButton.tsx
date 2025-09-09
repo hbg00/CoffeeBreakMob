@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity} from 'react-native'
 import React from 'react'
 import { useRouter } from 'expo-router';
-import { BakcButtonProps } from '@/types';
+import { BakcButtonProps } from '@/constants/types/types';
 import { colors, radius } from '@/constants/theme';
 import { verticalScale } from '@/utils/screenScale';
 import { CaretLeftIcon } from "phosphor-react-native";
@@ -30,7 +30,7 @@ export default BackButton
 
 const styles = StyleSheet.create({
       button: {
-        backgroundColor: colors.green,
+        backgroundColor: colors.orange,
         alignSelf: "flex-start",
         borderRadius: radius._12,
         borderCurve: "continuous",

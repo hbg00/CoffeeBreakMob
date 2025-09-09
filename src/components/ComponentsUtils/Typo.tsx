@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TextStyle } from "react-native";
 import React from "react";
 import { colors } from "@/constants/theme";
-import { TypoProps } from "@/types";
+import { TypoProps } from "@/constants/types/types";
 import { verticalScale } from "@/utils/screenScale";
 
 const Typo = ({

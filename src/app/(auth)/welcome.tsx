@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import Animated, { FadeIn, FadeInDown } from "react-native-reanimated";
 import { useRouter } from "expo-router";
@@ -8,7 +8,6 @@ import Typo from "@/components/ComponentsUtils/Typo";
 import { colors, spacingX, spacingY } from "@/constants/theme";
 import Button from "@/components/Shared/Button";
 import { verticalScale } from "@/utils/screenScale";
-
 
 const Welcome = () => {
     const router = useRouter();
