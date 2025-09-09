@@ -25,7 +25,7 @@ const Card = ({
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.cardContainer}
-            colors={[colors.orange, colors.darkCarmel]}
+            colors={[colors.black, colors.darkCarmel]}
         >
             <Image
                 source={require("../../assets/images/coffee_temp.jpg")}
