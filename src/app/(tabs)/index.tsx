@@ -110,7 +110,6 @@ const Home = () => {
                 imagelink_square={require("../../assets/images/coffee_temp.jpg")}
                 name={item.name}
                 price={item.price}
-                buttonPressHandler={addToBasket}
                 onCardPress={(coffeeItem: CoffeeItem) => {
                   setSelectedCoffee(coffeeItem);
                   setModalVisible(true);

@@ -57,14 +57,6 @@ const Card = ({
 
                     <View style={styles.priceRow}>
                         <Typo style={styles.priceText}>${price}</Typo>
-
-                        {/* + Button -> do koszyka */}
-                        <TouchableOpacity
-                            style={styles.addButton}
-                            onPress={() => buttonPressHandler(coffeeData)}
-                        >
-                            <Text style={styles.addButtonText}>+</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </LinearGradient>
@@ -107,24 +99,5 @@ const styles = StyleSheet.create({
         color: colors.orange,
         fontSize: 16,
         fontWeight: "600",
-    },
-    addButton: {
-        backgroundColor: colors.orange,
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        justifyContent: "center",
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        elevation: 3,
-    },
-    addButtonText: {
-        color: colors.white,
-        fontSize: 24,
-        fontWeight: "bold",
-        lineHeight: 28,
     },
 });
