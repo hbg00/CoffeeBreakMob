@@ -15,6 +15,7 @@ import { colors, radius, spacingX, spacingY } from "@/constants/theme";
 import HeadBar from "@/components/Home/HeadBar";
 import { useAuth } from "@/context/authContext";
 import Card from "@/components/Home/Card";
+import DetailModal from "../(modals)/detailModal";
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -36,6 +37,13 @@ const Home = () => {
   const [coffee, setCoffee] = useState(
     getCoffeeList(categoryIndex.category, coffees)
   );
+
+  const [selectedCoffee, setSelectedCoffee] = useState<CoffeeItem | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const addToBasket = (coffeeItem: CoffeeItem) => {
+    console.log("Added to basket:", coffeeItem);
+  };
 
   return (
     <ScreenWrapper>
@@ -72,7 +80,6 @@ const Home = () => {
                 onPress={() => {
                   setCategoryIndex({ index, category: data });
                   setCoffee(getCoffeeList(data, coffees));
-
                   ListRef.current?.scrollToOffset({ offset: 0, animated: true });
                 }}
               >
@@ -95,26 +102,37 @@ const Home = () => {
           <FlatList
             ref={ListRef}
             data={coffee}
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <Card
                 id={item.id}
                 type={item.category}
                 roast_type={item.roast_type}
                 imagelink_square={require("../../assets/images/coffee_temp.jpg")}
-
                 name={item.name}
                 price={item.price}
-                buttonPressHandler={(coffeeItem: any) => {
-                  console.log("Added to cart:", coffeeItem);
+                buttonPressHandler={addToBasket}
+                onCardPress={(coffeeItem: CoffeeItem) => {
+                  setSelectedCoffee(coffeeItem);
+                  setModalVisible(true);
                 }}
               />
             )}
             keyExtractor={(item) => item.id.toString()}
-            horizontal 
+            horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: spacingX._20, paddingVertical: spacingY._10 }}
+            contentContainerStyle={{
+              gap: spacingX._20,
+              paddingVertical: spacingY._10,
+            }}
           />
-        </View>        
+        </View>
+
+        <DetailModal
+          visible={modalVisible}
+          coffee={selectedCoffee}
+          onClose={() => setModalVisible(false)}
+          onAddToCart={(coffeeItem: CoffeeItem) => addToBasket(coffeeItem)}
+        />
       </View>
     </ScreenWrapper>
   );
