@@ -11,6 +11,10 @@ import Typo from "../Shared/Typo";
 import { CardProps } from "@/constants/types/homeTypes";
 import { colors, radius, spacingX } from "@/constants/theme";
 
+type ExtendedCardProps = CardProps & {
+    onCardPress: (coffee: CardProps) => void;
+};
+
 const Card = ({
     id,
     type,
@@ -19,45 +23,52 @@ const Card = ({
     name,
     price,
     buttonPressHandler,
-}: CardProps) => {
+    onCardPress,
+}: ExtendedCardProps) => {
+    const coffeeData = {
+        id,
+        type,
+        roast_type,
+        imagelink_square,
+        name,
+        price,
+    };
+
     return (
-        <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.cardContainer}
-            colors={[colors.black, colors.darkCarmel]}
+        <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => onCardPress(coffeeData)}
         >
-            <Image
-                source={require("../../assets/images/coffee_temp.jpg")}
-                style={styles.cardImage}
-                resizeMode="cover"
-            />
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.cardContainer}
+                colors={[colors.black, colors.darkCarmel]}
+            >
+                <Image
+                    source={require("../../assets/images/coffee_temp.jpg")}
+                    style={styles.cardImage}
+                    resizeMode="cover"
+                />
 
-            <View style={styles.infoContainer}>
-                <Typo style={styles.cardTitle}>{name}</Typo>
-                <Typo style={styles.cardInfo}>{roast_type}</Typo>
+                <View style={styles.infoContainer}>
+                    <Typo style={styles.cardTitle}>{name}</Typo>
+                    <Typo style={styles.cardInfo}>{roast_type}</Typo>
 
-                <View style={styles.priceRow}>
-                <Typo style={styles.priceText}>${price}</Typo>
+                    <View style={styles.priceRow}>
+                        <Typo style={styles.priceText}>${price}</Typo>
 
-                <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={() => {
-                    buttonPressHandler({
-                        id,
-                        type,
-                        roast_type,
-                        imagelink_square,
-                        name,
-                        price,
-                    });
-                    }}
-                >
-                    <Text style={styles.addButtonText}>+</Text>
-                </TouchableOpacity>
-            </View>
-            </View>
-        </LinearGradient>
+                        {/* + Button -> do koszyka */}
+                        <TouchableOpacity
+                            style={styles.addButton}
+                            onPress={() => buttonPressHandler(coffeeData)}
+                        >
+                            <Text style={styles.addButtonText}>+</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </LinearGradient>
+        </TouchableOpacity>
     );
 };
 
