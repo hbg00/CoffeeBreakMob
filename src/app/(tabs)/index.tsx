@@ -1,177 +1,339 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  ScrollView,
   StyleSheet,
-  TouchableOpacity,
   View,
   FlatList,
+  ScrollView,
+  TouchableOpacity,
+  ListRenderItemInfo,
 } from "react-native";
 
-import { coffees, getCategories } from "../../data/coffeeMocks";
-import { CoffeeItem } from "@/constants/types/homeTypes";
-import Typo from "@/components/Shared/Typo";
 import ScreenWrapper from "@/components/Shared/ScreenWrapper";
-import { colors, radius, spacingX, spacingY } from "@/constants/theme";
+import Typo from "@/components/Shared/Typo";
 import HeadBar from "@/components/Home/HeadBar";
-import { useAuth } from "@/context/authContext";
 import Card from "@/components/Home/Card";
 import DetailModal from "../(modals)/detailModal";
 
+import { colors, spacingX, spacingY, radius } from "@/constants/theme";
+import { useAuth } from "@/context/authContext";
+import { useBasket } from "@/context/basketContext";
+
+import {
+  ProductCard,
+  CoffeeDto,
+  TeaDto,
+  CakeDto,
+  CookieDto,
+} from "@/constants/types/homeTypes";
+
+import {
+  getCoffeesApi,
+  getTeasApi,
+  getCakesApi,
+  getCookiesApi,
+  getCoffeeTypesApi,
+  getTeaTypesApi,
+  getCakeTypesApi,
+  getCookieTypesApi,
+} from "@/api/productApi";
+
+import { mapCakeDtoToCard, mapCoffeeDtoToCard, mapCookieDtoToCard, mapTeaDtoToCard } from "@/utils/productMapper";
+
+
 const Home = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
   const { user } = useAuth();
+  const { addToBasket } = useBasket();
 
-  const categories = getCategories();
-  const ListRef = useRef<FlatList<CoffeeItem>>(null);
+  const [coffeeTypes, setCoffeeTypes] = useState<string[]>(["All"]);
+  const [teaTypes, setTeaTypes] = useState<string[]>(["All"]);
+  const [cakeTypes, setCakeTypes] = useState<string[]>(["All"]);
+  const [cookieTypes, setCookieTypes] = useState<string[]>(["All"]);
 
-  const getCoffeeList = (category: string, data: CoffeeItem[]) => {
-    if (category === "All") return data;
-    return data.filter((item) => item.category === category);
-  };
+  const [selectedCoffeeTypeIndex, setSelectedCoffeeTypeIndex] = useState(0);
+  const [selectedTeaTypeIndex, setSelectedTeaTypeIndex] = useState(0);
+  const [selectedCakeTypeIndex, setSelectedCakeTypeIndex] = useState(0);
+  const [selectedCookieTypeIndex, setSelectedCookieTypeIndex] = useState(0);
 
-  const [categoryIndex, setCategoryIndex] = useState({
-    index: 0,
-    category: categories[0],
-  });
+  const [coffeesAll, setCoffeesAll] = useState<ProductCard[]>([]);
+  const [teasAll, setTeasAll] = useState<ProductCard[]>([]);
+  const [cakesAll, setCakesAll] = useState<ProductCard[]>([]);
+  const [cookiesAll, setCookiesAll] = useState<ProductCard[]>([]);
 
-  const [coffee, setCoffee] = useState(
-    getCoffeeList(categoryIndex.category, coffees)
-  );
-
-  const [selectedCoffee, setSelectedCoffee] = useState<CoffeeItem | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ProductCard | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const addToBasket = (coffeeItem: CoffeeItem) => {
-    console.log("Added to basket:", coffeeItem);
+  const coffeeListRef = useRef<FlatList<ProductCard> | null>(null);
+  const teaListRef = useRef<FlatList<ProductCard> | null>(null);
+  const cakeListRef = useRef<FlatList<ProductCard> | null>(null);
+  const cookieListRef = useRef<FlatList<ProductCard> | null>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      const [
+        coffeeRes,
+        teaRes,
+        cakeRes,
+        cookieRes,
+        coffeeTypesRes,
+        teaTypesRes,
+        cakeTypesRes,
+        cookieTypesRes,
+      ] = await Promise.all([
+        getCoffeesApi(),
+        getTeasApi(),
+        getCakesApi(),
+        getCookiesApi(),
+        getCoffeeTypesApi(),
+        getTeaTypesApi(),
+        getCakeTypesApi(),
+        getCookieTypesApi(),
+      ]);
+
+      if (coffeeRes.success && coffeeRes.data) {
+        setCoffeesAll(coffeeRes.data.map((dto: CoffeeDto) => mapCoffeeDtoToCard(dto)));
+      }
+      if (teaRes.success && teaRes.data) {
+        setTeasAll(teaRes.data.map((dto: TeaDto) => mapTeaDtoToCard(dto)));
+      }
+      if (cakeRes.success && cakeRes.data) {
+        setCakesAll(cakeRes.data.map((dto: CakeDto) => mapCakeDtoToCard(dto)));
+      }
+      if (cookieRes.success && cookieRes.data) {
+        setCookiesAll(cookieRes.data.map((dto: CookieDto) => mapCookieDtoToCard(dto)));
+      }
+
+      if (coffeeTypesRes.success && coffeeTypesRes.data) {
+        setCoffeeTypes(["All", ...coffeeTypesRes.data]);
+      }
+      if (teaTypesRes.success && teaTypesRes.data) {
+        setTeaTypes(["All", ...teaTypesRes.data]);
+      }
+      if (cakeTypesRes.success && cakeTypesRes.data) {
+        setCakeTypes(["All", ...cakeTypesRes.data]);
+      }
+      if (cookieTypesRes.success && cookieTypesRes.data) {
+        setCookieTypes(["All", ...cookieTypesRes.data]);
+      }
+    };
+
+    load();
+  }, []);
+
+  const selectedCoffeeType = coffeeTypes[selectedCoffeeTypeIndex] ?? "All";
+  const selectedTeaType = teaTypes[selectedTeaTypeIndex] ?? "All";
+  const selectedCakeType = cakeTypes[selectedCakeTypeIndex] ?? "All";
+  const selectedCookieType = cookieTypes[selectedCookieTypeIndex] ?? "All";
+
+  const filteredCoffees =
+    selectedCoffeeType === "All"
+      ? coffeesAll
+      : coffeesAll.filter((p) => p.categoryLabel === selectedCoffeeType);
+
+  const filteredTeas =
+    selectedTeaType === "All"
+      ? teasAll
+      : teasAll.filter((p) => p.categoryLabel === selectedTeaType);
+
+  const filteredCakes =
+    selectedCakeType === "All"
+      ? cakesAll
+      : cakesAll.filter((p) => p.categoryLabel === selectedCakeType);
+
+  const filteredCookies =
+    selectedCookieType === "All"
+      ? cookiesAll
+      : cookiesAll.filter((p) => p.categoryLabel === selectedCookieType);
+
+  const handleCardPress = (product: ProductCard) => {
+    setSelectedProduct(product);
+    setModalVisible(true);
   };
 
-  return (
-    <ScreenWrapper>
-      <View style={styles.container}>
-        <HeadBar />
+  const handleAddToCart = (product: ProductCard) => {
+    addToBasket(product);
+    setModalVisible(false);
+  };
 
-        <View>
-          <Typo size={24} color={colors.darkCoffee} fontWeight={"bold"}>
-            Hi, {user?.name ?? "Adam"}
-          </Typo>
+  const renderHorizontalList = (
+    data: ProductCard[],
+    ref: React.RefObject<FlatList<ProductCard>>
+  ) => (
+    <FlatList<ProductCard>
+      ref={ref}
+      data={data}
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.productsList}
+      renderItem={({ item }: ListRenderItemInfo<ProductCard>) => (
+        <Card {...item} onCardPress={handleCardPress} />
+      )}
+      keyExtractor={(item) => item.id}
+    />
+  );
 
-          <Typo size={20} color={colors.coffee} fontWeight={"bold"}>
-            How we can make your day better?
-          </Typo>
-        </View>
-
-        <View>
-          <Typo size={24} color={colors.darkCoffee} fontWeight={"bold"}>
-            Types of coffees
-          </Typo>
-
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.categoryScrollView}
+  const renderTypesRow = (
+    types: string[],
+    selectedIndex: number,
+    onSelect: (index: number) => void,
+    ref: React.RefObject<FlatList<ProductCard>>
+  ) => (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.categoryScrollView}
+    >
+      {types.map((t, index) => (
+        <TouchableOpacity
+          key={index.toString()}
+          style={[
+            styles.categoryPill,
+            selectedIndex === index && styles.activeCategoryPill,
+          ]}
+          onPress={() => {
+            onSelect(index);
+            ref.current?.scrollToOffset({ offset: 0, animated: true });
+          }}
+        >
+          <Typo
+            style={[
+              styles.categoryText,
+              selectedIndex === index && styles.activeCategoryText,
+            ]}
           >
-            {categories.map((data, index) => (
-              <TouchableOpacity
-                key={index.toString()}
-                style={[
-                  styles.categoryPill,
-                  categoryIndex.index === index && styles.activeCategoryPill,
-                ]}
-                onPress={() => {
-                  setCategoryIndex({ index, category: data });
-                  setCoffee(getCoffeeList(data, coffees));
-                  ListRef.current?.scrollToOffset({ offset: 0, animated: true });
-                }}
-              >
-                <Typo
-                  style={[
-                    styles.categoryText,
-                    categoryIndex.index === index && styles.activeCategoryText,
-                  ]}
-                >
-                  {data}
-                </Typo>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-
-          <Typo size={24} color={colors.darkCoffee} fontWeight={"bold"}>
-            Coffees
+            {t}
           </Typo>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  );
 
-          <FlatList
-            ref={ListRef}
-            data={coffee}
-            renderItem={({ item }) => (
-              <Card
-                id={item.id}
-                type={item.category}
-                roast_type={item.roast_type}
-                imagelink_square={require("../../assets/images/coffee_temp.jpg")}
-                name={item.name}
-                price={item.price}
-                onCardPress={(coffeeItem: CoffeeItem) => {
-                  setSelectedCoffee(coffeeItem);
-                  setModalVisible(true);
-                }}
-              />
+  return (
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ flexGrow: 1}}
+    >
+      <ScreenWrapper>
+        <View style={styles.container}>
+          <HeadBar />
+
+          <View>
+            <Typo size={24} color={colors.darkCoffee} fontWeight="bold">
+              Hi, {user?.firstName ?? "Guest"}
+            </Typo>
+            <Typo size={20} color={colors.coffee} fontWeight="bold">
+              How we can make your day better?
+            </Typo>
+          </View>
+
+          <View>
+            <Typo size={18} color={colors.darkCoffee} fontWeight="bold">
+              Coffee types
+            </Typo>
+            {renderTypesRow(
+              coffeeTypes,
+              selectedCoffeeTypeIndex,
+              setSelectedCoffeeTypeIndex,
+              coffeeListRef
             )}
-            keyExtractor={(item) => item.id.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{
-              gap: spacingX._20,
-              paddingVertical: spacingY._10,
-            }}
-          />
+            <Typo size={22} color={colors.darkCoffee} fontWeight="bold">
+              Coffees
+            </Typo>
+            {renderHorizontalList(filteredCoffees, coffeeListRef)}
+          </View>
+
+          <View style={styles.section}>
+            <Typo size={18} color={colors.darkCoffee} fontWeight="bold">
+              Tea types
+            </Typo>
+            {renderTypesRow(
+              teaTypes,
+              selectedTeaTypeIndex,
+              setSelectedTeaTypeIndex,
+              teaListRef
+            )}
+            <Typo size={22} color={colors.darkCoffee} fontWeight="bold">
+              Teas
+            </Typo>
+            {renderHorizontalList(filteredTeas, teaListRef)}
+          </View>
+
+          <View>
+            <Typo size={18} color={colors.darkCoffee} fontWeight="bold">
+              Cake types
+            </Typo>
+            {renderTypesRow(
+              cakeTypes,
+              selectedCakeTypeIndex,
+              setSelectedCakeTypeIndex,
+              cakeListRef
+            )}
+            <Typo size={22} color={colors.darkCoffee} fontWeight="bold">
+              Cakes
+            </Typo>
+            {renderHorizontalList(filteredCakes, cakeListRef)}
+          </View>
+
+          <View>
+            <Typo size={18} color={colors.darkCoffee} fontWeight="bold">
+              Cookie types
+            </Typo>
+            {renderTypesRow(
+              cookieTypes,
+              selectedCookieTypeIndex,
+              setSelectedCookieTypeIndex,
+              cookieListRef
+            )}
+            <Typo size={22} color={colors.darkCoffee} fontWeight="bold">
+              Cookies
+            </Typo>
+            {renderHorizontalList(filteredCookies, cookieListRef)}
+          </View>
         </View>
 
         <DetailModal
           visible={modalVisible}
-          coffee={selectedCoffee}
+          product={selectedProduct}
           onClose={() => setModalVisible(false)}
-          onAddToCart={(coffeeItem: CoffeeItem) => addToBasket(coffeeItem)}
+          onAddToCart={handleAddToCart}
         />
-      </View>
-    </ScreenWrapper>
+      </ScreenWrapper>
+    </ScrollView>
   );
 };
+
+export default Home;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: spacingY._30,
     paddingHorizontal: spacingX._20,
+    gap: spacingY._20,
   },
   categoryScrollView: {
     paddingVertical: spacingY._10,
-    gap: spacingX._10,
+    paddingRight: spacingX._10,
   },
   categoryPill: {
-    paddingHorizontal: spacingX._20,
+    paddingHorizontal: spacingX._15,
     paddingVertical: spacingY._7,
-    borderRadius: radius._10,
-    borderWidth: 1,
-    borderColor: colors.lightOrange,
-    backgroundColor: colors.lightOrange,
+    borderRadius: radius._20,
+    backgroundColor: colors.darkCoffee,
+    marginRight: spacingX._10,
   },
   activeCategoryPill: {
     backgroundColor: colors.orange,
-    borderColor: colors.orange,
   },
   categoryText: {
-    fontSize: 14,
-    color: colors.white,
+    color: colors.carmel,
     fontWeight: "600",
+    fontSize: 14,
   },
   activeCategoryText: {
     color: colors.white,
-    fontWeight: "bold",
   },
-  cardRow: {
-    justifyContent: "space-between",
-    marginBottom: spacingY._20,
+  productsList: {
+    gap: spacingX._20,
+    paddingVertical: spacingY._10,
   },
 });
 
-export default Home;

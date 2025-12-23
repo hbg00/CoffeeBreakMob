@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   StyleSheet,
@@ -9,17 +9,15 @@ import {
 } from "react-native";
 import Typo from "@/components/Shared/Typo";
 import { colors, spacingX, spacingY, radius } from "@/constants/theme";
-import { DetailModalProps } from "@/constants/types/profileTypes";
+import { DetailModalProps } from "@/constants/types/homeTypes";
 
 const DetailModal = ({
   visible,
-  coffee,
+  product,
   onClose,
   onAddToCart,
 }: DetailModalProps) => {
-  const [size, setSize] = useState("Small");
-
-  if (!coffee) return null;
+  if (!product) return null;
 
   return (
     <Modal visible={visible} transparent animationType="slide">
@@ -27,75 +25,50 @@ const DetailModal = ({
         <View style={styles.modalContainer}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <Image
-              source={require("../../assets/images/coffee_temp.jpg")}
+              source={product.imageSource ?? require("../../assets/images/coffee_temp.jpg")}
               style={styles.image}
             />
 
             <View style={styles.headerRow}>
               <Typo size={22} color={colors.darkCoffee} fontWeight="bold">
-                {coffee.name}
+                {product.name}
               </Typo>
             </View>
 
             <View style={styles.tagsRow}>
               <View style={styles.tag}>
                 <Typo size={12} color={colors.darkCoffee}>
-                  Coffee
+                  {product.productType}
                 </Typo>
               </View>
               <View style={styles.tag}>
                 <Typo size={12} color={colors.darkCoffee}>
-                  Chocolate
-                </Typo>
-              </View>
-              <View style={styles.tag}>
-                <Typo size={12} color={colors.darkCoffee}>
-                  Medium roasted
+                  {product.categoryLabel}
                 </Typo>
               </View>
             </View>
 
-            <Typo size={16} color={colors.darkCoffee} fontWeight="bold">
-              Coffee Size
-            </Typo>
-            <View style={styles.sizeRow}>
-              {["Small", "Medium", "Large"].map((s) => (
-                <TouchableOpacity
-                  key={s}
-                  style={[
-                    styles.sizeButton,
-                    size === s && styles.activeSizeButton,
-                  ]}
-                  onPress={() => setSize(s)}
-                >
-                  <Typo
-                    size={14}
-                    color={size === s ? "white" : colors.darkCoffee}
-                    fontWeight={size === s ? "bold" : "600"}
-                  >
-                    {s}
-                  </Typo>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            <Typo size={16} color={colors.darkCoffee} fontWeight="bold">
+            <Typo
+              size={16}
+              color={colors.darkCoffee}
+              fontWeight="bold"
+              style={{ marginBottom: 5 }}
+            >
               About
             </Typo>
             <Typo size={14} color={colors.black}>
-              Cappuccino is the richest of all types of coffee and uses cream
-              instead of milk as the primary ingredient along with double espresso
+              {product.description || "No description available."}
             </Typo>
 
             <TouchableOpacity
               style={styles.addButton}
-              onPress={() => onAddToCart(coffee, size)}
+              onPress={() => onAddToCart(product)}
             >
               <Typo size={16} color="white" fontWeight="bold">
                 Add to basket
               </Typo>
               <Typo size={16} color="white" fontWeight="bold">
-                ${coffee.price.toFixed(2)}
+                {(product.price ?? 0).toFixed(2)} {product.currency}
               </Typo>
             </TouchableOpacity>
 
@@ -118,12 +91,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalContainer: {
     width: "90%",
     backgroundColor: colors.lightCream,
     borderRadius: radius._20,
     padding: spacingX._20,
+    maxHeight: "80%",
   },
   image: {
     width: "100%",
@@ -146,23 +121,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacingX._7,
     paddingVertical: spacingY._5,
     borderRadius: radius._10,
-  },
-  sizeRow: {
-    flexDirection: "row",
-    gap: spacingX._10,
-    marginVertical: spacingY._10,
-  },
-  sizeButton: {
-    paddingHorizontal: spacingX._12,
-    paddingVertical: spacingY._5,
-    backgroundColor: colors.lightCream,
-    borderRadius: radius._10,
-    borderWidth: 1,
-    borderColor: colors.coffee,
-  },
-  activeSizeButton: {
-    backgroundColor: colors.darkCoffee,
-    borderColor: colors.darkCoffee,
   },
   addButton: {
     flexDirection: "row",
