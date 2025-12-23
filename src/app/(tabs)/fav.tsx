@@ -5,13 +5,29 @@ import ScreenWrapper from "@/components/Shared/ScreenWrapper";
 import Typo from "@/components/Shared/Typo";
 import HeadBar from "@/components/Home/HeadBar";
 import Card from "@/components/Home/Card";
+import DetailModal from "../(modals)/detailModal";
 
 import { colors, spacingX, spacingY } from "@/constants/theme";
-import { coffees } from "@/data/coffeeMocks";
-import { CoffeeItem } from "@/constants/types/homeTypes";
+import { ProductCard } from "@/constants/types/homeTypes";
+import { useFavorites } from "@/context/favContext";
+import { useBasket } from "@/context/basketContext";
 
 const Fav = () => {
-  const [favorites] = useState<CoffeeItem[]>(coffees.slice(0, 4));
+  const { favorites } = useFavorites();
+  const { addToBasket } = useBasket();
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductCard | null>(null);
+
+  const handleCardPress = (product: ProductCard) => {
+    setSelectedProduct(product);
+    setModalVisible(true);
+  };
+
+  const handleAddToCart = (product: ProductCard) => {
+    addToBasket(product);
+    setModalVisible(false);
+  };
 
   return (
     <ScreenWrapper>
@@ -23,25 +39,20 @@ const Fav = () => {
         </Typo>
 
         {favorites.length === 0 ? (
-          <Typo size={18} color={colors.coffee}>
-            You don’t have any favorite coffees yet ☕
-          </Typo>
+          <View style={styles.emptyContainer}>
+            <Typo size={18} color={colors.coffee}>
+              You don’t have any favorite items yet
+            </Typo>
+          </View>
         ) : (
-          <FlatList
+          <FlatList<ProductCard>
             data={favorites}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <View style={styles.cardWrapper}>
                 <Card
-                  id={item.id}
-                  type={item.category}
-                  roast_type={item.roast_type}
-                  imagelink_square={require("../../assets/images/coffee_temp.jpg")}
-                  name={item.name}
-                  price={item.price}
-                  buttonPressHandler={() => {
-                    console.log("Mock: removed from favorites →", item.name);
-                  }}
+                  {...item}
+                  onCardPress={handleCardPress}
                 />
               </View>
             )}
@@ -49,12 +60,19 @@ const Fav = () => {
             numColumns={2}
             columnWrapperStyle={{ justifyContent: "space-between" }}
             contentContainerStyle={{
-              gap: spacingY._20,
               paddingVertical: spacingY._10,
+              paddingBottom: 100,
             }}
           />
         )}
       </View>
+
+      <DetailModal
+        visible={modalVisible}
+        product={selectedProduct}
+        onClose={() => setModalVisible(false)}
+        onAddToCart={handleAddToCart}
+      />
     </ScreenWrapper>
   );
 };
@@ -62,13 +80,18 @@ const Fav = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: spacingY._20,
+    gap: spacingY._30,
     paddingHorizontal: spacingX._20,
   },
-  cardWrapper: {
+  emptyContainer: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: spacingY._50,
+  },
+  cardWrapper: {
+    width: "48%",
     marginBottom: spacingY._20,
-    maxWidth: "48%",
   },
 });
 

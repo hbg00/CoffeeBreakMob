@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View, FlatList, TouchableOpacity, Image } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import { LinearGradient } from 'expo-linear-gradient';
 
 import ScreenWrapper from "@/components/Shared/ScreenWrapper";
 import Typo from "@/components/Shared/Typo";
 import HeadBar from "@/components/Home/HeadBar";
 
 import { colors, spacingX, spacingY } from "@/constants/theme";
-import { coffees } from "@/data/coffeeMocks";
-import { CoffeeItem } from "@/constants/types/homeTypes";
+import { useBasket } from "@/context/basketContext";
 
 const Basket = () => {
-  const [basket, setBasket] = useState<CoffeeItem[]>(coffees.slice(0, 4));
-
-  const removeFromBasket = (id: number) => {
-    setBasket((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const totalPrice = basket.reduce((sum, item) => sum + item.price, 0);
+  const { basket, removeFromBasket, totalPrice } = useBasket();
 
   return (
     <ScreenWrapper>
@@ -96,7 +89,7 @@ export default Basket;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: spacingY._20,
+    gap: spacingY._30,
     paddingHorizontal: spacingX._20,
   },
   row: {

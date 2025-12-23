@@ -20,23 +20,33 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const{login: loginEmail, loginWithGoogle: loginOAuth} = useAuth();
 
-
-  const handleLoginEmail =  async () => {
-    // TODO: Logic with email and password
-    setIsLoading(true);
-    
-    const res = await loginEmail(emailRef.current, passwordRef.current);
-    
-    setIsLoading(false);
-    
-    if(!res.success){
-      Alert.alert('Login', res.msg);
+  const handleLoginEmail = async () => {
+    if (!emailRef.current || !passwordRef.current) {
+      Alert.alert("Login", "Please enter email and password");
       return;
     }
+
+    try {
+      setIsLoading(true);
+
+      const res = await loginEmail(emailRef.current, passwordRef.current);
+
+      if (!res.success) {
+        Alert.alert("Login Failed", res.msg || "Unknown error");
+        return;
+      }
+
+      console.log("Login successful", res.msg);
+
+      } catch (error: any) {
+        console.error("Login error", error);
+        Alert.alert("Login Error", error.message || "Something went wrong");
+      } finally {
+        setIsLoading(false);
+      }
   };
 
   const handleLoginGoogle = async () => {
-    // TODO: Logic with OAuth Google
     setIsLoading(true);
     
     const res = await loginOAuth();
@@ -48,7 +58,6 @@ const Login = () => {
       return;
     }
   }
-
 
   return (
     <ScreenWrapper>

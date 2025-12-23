@@ -7,14 +7,14 @@
     "scheme": "src",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "jsEngine": "hermes",
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.src"
+      "package": "com.coffeebreakmob"
     },
-    "package": "com.coffeebreakmob",
     "web": {
       "bundler": "metro",
       "output": "server"
@@ -22,10 +22,14 @@
     "plugins": [
       "expo-router",
       "expo-web-browser",
-      "expo-secure-store"
+      "expo-secure-store",
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "googleClientId": "1397.....vhrkb.apps.googleusercontent.com"
     }
   }
 }
